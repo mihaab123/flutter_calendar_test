@@ -38,7 +38,7 @@ class _DayScreenState extends State<DayScreen> {
           child: Column(
             children: [
               Hero(
-                tag: widget.item.day,
+                tag: widget.item,
                 child: ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,

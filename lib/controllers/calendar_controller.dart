@@ -18,8 +18,11 @@ class CalendarController extends GetxController {
     getDaysOfMonth();
   }
 
-  setNewDate(DateTime newDate) {
-    currentMonthStart.value = newDate;
+  setNewDate(int step) {
+    currentMonthStart.value = DateTime(
+        currentMonthStart.value.year, currentMonthStart.value.month + step, 1);
+    currentMonthEnd.value = DateTime(
+        currentMonthStart.value.year, currentMonthStart.value.month + 1, 0);
     getDaysOfMonth();
     update();
   }

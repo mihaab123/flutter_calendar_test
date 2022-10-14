@@ -17,7 +17,7 @@ class CalendarItem extends StatelessWidget {
           }
         },
         child: Hero(
-            tag: item.day,
+            tag: item,
             child: item.tasks.isEmpty || !item.currentMonth
                 ? Center(
                     child: Text(

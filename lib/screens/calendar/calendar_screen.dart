@@ -6,7 +6,6 @@ import 'package:flutter_calendar_test/screens/calendar/widgets/calendar_view.dar
 import 'package:get/get.dart';
 
 class CalendarScreen extends StatelessWidget {
-  final CalendarController _calendarController = Get.put(CalendarController());
   CalendarScreen({Key? key}) : super(key: key);
 
   @override
@@ -19,10 +18,8 @@ class CalendarScreen extends StatelessWidget {
         body: Column(
           children: [
             CalendarAction(),
-            CalendarHeader(),
-            GetBuilder<CalendarController>(
-              builder: (_) => CalendarView(),
-            ),
+            const CalendarHeader(),
+            CalendarView(),
           ],
         ),
       ),

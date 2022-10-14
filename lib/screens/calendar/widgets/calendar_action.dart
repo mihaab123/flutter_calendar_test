@@ -16,9 +16,7 @@ class CalendarAction extends StatelessWidget {
         children: [
           IconButton(
               onPressed: () {
-                _calendarController.setNewDate(_calendarController
-                    .currentMonthStart.value
-                    .add(const Duration(days: -30)));
+                _calendarController.setNewDate(-1);
               },
               icon: const Icon(Icons.arrow_back_ios)),
           GetBuilder<CalendarController>(
@@ -29,9 +27,7 @@ class CalendarAction extends StatelessWidget {
           ),
           IconButton(
               onPressed: () {
-                _calendarController.setNewDate(_calendarController
-                    .currentMonthStart.value
-                    .add(const Duration(days: 30)));
+                _calendarController.setNewDate(1);
               },
               icon: const Icon(Icons.arrow_forward_ios)),
         ],

@@ -9,17 +9,19 @@ class CalendarView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.5,
-      width: MediaQuery.of(context).size.width * 0.75,
-      child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 7,
-          ),
-          itemCount: _calendarController.daysOfMonth.length,
-          itemBuilder: (BuildContext context, int index) {
-            return CalendarItem(item: _calendarController.daysOfMonth[index]);
-          }),
-    );
+    return Obx(() {
+      return SizedBox(
+        height: MediaQuery.of(context).size.height * 0.5,
+        width: MediaQuery.of(context).size.width * 0.75,
+        child: GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 7,
+            ),
+            itemCount: _calendarController.daysOfMonth.length,
+            itemBuilder: (BuildContext context, int index) {
+              return CalendarItem(item: _calendarController.daysOfMonth[index]);
+            }),
+      );
+    });
   }
 }
