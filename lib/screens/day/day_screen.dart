@@ -22,8 +22,10 @@ class _DayScreenState extends State<DayScreen> {
 
   @override
   Widget build(BuildContext context) {
-    DateTime itemDate = DateTime(_calendarController.currentDate.value.year,
-        _calendarController.currentDate.value.month, widget.item.day);
+    DateTime itemDate = DateTime(
+        _calendarController.currentMonthStart.value.year,
+        _calendarController.currentMonthStart.value.month,
+        widget.item.day);
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
@@ -42,7 +44,10 @@ class _DayScreenState extends State<DayScreen> {
                   shrinkWrap: true,
                   itemCount: widget.item.tasks.length,
                   itemBuilder: ((context, index) {
-                    return TaskListItem(task: widget.item.tasks[index]);
+                    return TaskListItem(
+                      task: widget.item.tasks[index],
+                      itemIndex: index,
+                    );
                   }),
                 ),
               ),
@@ -77,8 +82,8 @@ class _DayScreenState extends State<DayScreen> {
 
   addNewTask(String text) {
     widget.item.tasks.add(TaskModel(
-        date: DateTime(_calendarController.currentDate.value.year,
-            _calendarController.currentDate.value.month, widget.item.day),
+        date: DateTime(_calendarController.currentMonthStart.value.year,
+            _calendarController.currentMonthStart.value.month, widget.item.day),
         description: text));
     setState(() {
       _editingController.text = "";

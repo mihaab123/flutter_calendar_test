@@ -17,20 +17,20 @@ class CalendarAction extends StatelessWidget {
           IconButton(
               onPressed: () {
                 _calendarController.setNewDate(_calendarController
-                    .currentDate.value
+                    .currentMonthStart.value
                     .add(const Duration(days: -30)));
               },
               icon: const Icon(Icons.arrow_back_ios)),
           GetBuilder<CalendarController>(
             builder: (_) => Text(
-              getMonthName(_calendarController.currentDate.value),
+              getMonthName(_calendarController.currentMonthStart.value),
               style: const TextStyle(fontSize: 20),
             ),
           ),
           IconButton(
               onPressed: () {
                 _calendarController.setNewDate(_calendarController
-                    .currentDate.value
+                    .currentMonthStart.value
                     .add(const Duration(days: 30)));
               },
               icon: const Icon(Icons.arrow_forward_ios)),

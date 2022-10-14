@@ -11,13 +11,22 @@ class CalendarItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        onTap: () => Get.to(DayScreen(item: item)),
+        onTap: () {
+          if (item.currentMonth) {
+            Get.to(DayScreen(item: item));
+          }
+        },
         child: Hero(
             tag: item.day,
-            child: item.tasks.isEmpty
-                ? Text(
-                    '${item.day}',
-                    style: const TextStyle(fontSize: 16),
+            child: item.tasks.isEmpty || !item.currentMonth
+                ? Center(
+                    child: Text(
+                      '${item.day}',
+                      style: TextStyle(
+                          fontSize: 16,
+                          color:
+                              !item.currentMonth ? Colors.grey : Colors.black),
+                    ),
                   )
                 : Badge(
                     badgeColor: Colors.blue,

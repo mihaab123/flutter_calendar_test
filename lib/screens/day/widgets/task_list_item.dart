@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_calendar_test/controllers/calendar_controller.dart';
 import 'package:flutter_calendar_test/models/task_model.dart';
+import 'package:get/get.dart';
 
 class TaskListItem extends StatelessWidget {
+  final itemIndex;
   final TaskModel task;
-  const TaskListItem({Key? key, required this.task}) : super(key: key);
+  final CalendarController _calendarController = Get.find<CalendarController>();
+  TaskListItem({Key? key, required this.task, required this.itemIndex})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +28,9 @@ class TaskListItem extends StatelessWidget {
           alignment: Alignment.centerRight,
           child: const Icon(Icons.delete),
         ),
+        onDismissed: (direction) {
+          _calendarController.daysOfMonth[itemIndex].tasks.remove(task);
+        },
         child: ConstrainedBox(
           constraints:
               BoxConstraints(minWidth: MediaQuery.of(context).size.width - 16),
