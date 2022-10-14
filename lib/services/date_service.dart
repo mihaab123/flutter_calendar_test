@@ -14,3 +14,7 @@ String getMonthName(DateTime date) {
 String getDateToString(DateTime date) {
   return DateFormat('dd MMMM yyyy').format(date);
 }
+
+String getTime(DateTime date) {
+  return DateFormat('HH:mm').format(date);
+}

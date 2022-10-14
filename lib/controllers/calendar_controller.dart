@@ -1,12 +1,14 @@
 import 'package:flutter_calendar_test/models/day_model.dart';
 import 'package:flutter_calendar_test/models/task_model.dart';
 import 'package:flutter_calendar_test/services/date_service.dart';
+import 'package:flutter_calendar_test/services/repository.dart';
 import 'package:get/state_manager.dart';
 
 class CalendarController extends GetxController {
   Rx<DateTime> currentMonthStart = Rx<DateTime>(DateTime.now());
   Rx<DateTime> currentMonthEnd = Rx<DateTime>(DateTime.now());
   RxList<DayModel> daysOfMonth = RxList<DayModel>([]);
+  Repository _repository = Repository();
 
   @override
   void onInit() {
@@ -42,6 +44,7 @@ class CalendarController extends GetxController {
             tasks: List.generate(
                 3,
                 (index) => TaskModel(
+                    id: index,
                     date: DateTime(currentMonthStart.value.year,
                         currentMonthStart.value.month, index + 1),
                     description: "description $index")))));
@@ -56,14 +59,23 @@ class CalendarController extends GetxController {
             tasks: List.generate(
                 3,
                 (index) => TaskModel(
+                    id: index,
                     date: DateTime(currentMonthStart.value.year,
                         currentMonthStart.value.month, index + 1),
                     description: "description $index")))));
     daysOfMonth.value = monthBefore + currentMonth;
   }
 
-  setItemList(int index, DayModel item) {
-    daysOfMonth[index] = item;
+  addNewTaskToDatabase(DayModel item, TaskModel task) {
+    _repository.insertData("tasks", task.toMap());
+    int index = daysOfMonth.indexOf(item);
+    daysOfMonth[index].tasks.add(task);
+    update();
+  }
+
+  deleteTaskFromDatabase(int index, TaskModel task) {
+    _repository.deleteData("tasks", task.id);
+    daysOfMonth[index].tasks.remove(task);
     update();
   }
 }

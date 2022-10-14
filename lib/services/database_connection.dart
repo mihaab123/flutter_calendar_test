@@ -13,7 +13,7 @@ class DatabaseConnection {
   }
 
   void _createDB(Database database, int version) async {
-    await database
-        .execute("CREATE TABLE tasks(date INTEGER,  description TEXT");
+    await database.execute(
+        "CREATE TABLE tasks(id INTEGER PRIMARY KEY AUTOINCREMENT, date INTEGER,  description TEXT");
   }
 }
