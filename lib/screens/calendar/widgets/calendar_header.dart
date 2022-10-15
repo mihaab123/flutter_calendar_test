@@ -12,7 +12,10 @@ class CalendarHeader extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: List.generate(
           7,
-          (index) => Text(weekDays[index]),
+          (index) => Text(
+            weekDays[index],
+            style: const TextStyle(color: Colors.blue),
+          ),
         ),
       ),
     );
