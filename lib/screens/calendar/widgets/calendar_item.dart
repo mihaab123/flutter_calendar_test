@@ -1,12 +1,14 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_calendar_test/controllers/calendar_controller.dart';
 import 'package:flutter_calendar_test/models/day_model.dart';
 import 'package:flutter_calendar_test/screens/day/day_screen.dart';
 import 'package:get/get.dart';
 
 class CalendarItem extends StatelessWidget {
   final DayModel item;
-  const CalendarItem({Key? key, required this.item}) : super(key: key);
+  final CalendarController _calendarController = Get.find<CalendarController>();
+  CalendarItem({Key? key, required this.item}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +16,10 @@ class CalendarItem extends StatelessWidget {
         onTap: () {
           if (item.currentMonth) {
             Get.to(() => DayScreen(item: item));
+          } else if (item.day < 10) {
+            _calendarController.setNewDate(1);
+          } else if (item.day > 10) {
+            _calendarController.setNewDate(-1);
           }
         },
         child: Hero(
