@@ -69,10 +69,10 @@ class _DayScreenState extends State<DayScreen> {
                         DropdownButton<String>(
                           value: currentTime,
                           elevation: 16,
-                          style: const TextStyle(color: Colors.deepPurple),
+                          style: const TextStyle(color: Colors.blue),
                           underline: Container(
                             height: 2,
-                            color: Colors.deepPurpleAccent,
+                            color: Colors.blueAccent,
                           ),
                           onChanged: (String? value) {
                             setState(() {
