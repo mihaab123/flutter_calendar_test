@@ -2,7 +2,7 @@
 import 'dart:convert';
 
 class TaskModel {
-  int id;
+  int? id;
   DateTime date;
   String description;
   TaskModel({

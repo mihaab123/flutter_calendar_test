@@ -22,7 +22,7 @@ class _DayScreenState extends State<DayScreen> {
   final List<String> _timePicker = List.generate(48, (index) {
     int hours = index ~/ 2;
     int minutes = index % 2 == 0 ? 0 : 30;
-    return "$hours:$minutes";
+    return "${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}";
   });
 
   @override
@@ -116,7 +116,7 @@ class _DayScreenState extends State<DayScreen> {
     _calendarController.addNewTaskToDatabase(
         widget.item,
         TaskModel(
-            id: 0,
+            id: null,
             date: DateTime(
                 _calendarController.currentMonthStart.value.year,
                 _calendarController.currentMonthStart.value.month,

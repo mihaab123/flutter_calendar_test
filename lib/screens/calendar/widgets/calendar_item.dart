@@ -13,7 +13,7 @@ class CalendarItem extends StatelessWidget {
     return InkWell(
         onTap: () {
           if (item.currentMonth) {
-            Get.to(DayScreen(item: item));
+            Get.to(() => DayScreen(item: item));
           }
         },
         child: Hero(

@@ -18,9 +18,11 @@ class Repository {
     return await connection.insert(table, data);
   }
 
-  readData(table) async {
+  readData(table, DateTime dataStart, DateTime dataEnd) async {
     var connection = await database;
-    return await connection.query(table);
+    return await connection.query(table,
+        where:
+            "date BETWEEN ${dataStart.millisecondsSinceEpoch} and ${dataEnd.millisecondsSinceEpoch}");
   }
 
   updateData(table, data) async {

@@ -18,6 +18,7 @@ class CalendarController extends GetxController {
     currentMonthEnd.value = DateTime(
         currentMonthStart.value.year, currentMonthStart.value.month + 1, 0);
     getDaysOfMonth();
+    getTasks();
   }
 
   setNewDate(int step) {
@@ -26,6 +27,7 @@ class CalendarController extends GetxController {
     currentMonthEnd.value = DateTime(
         currentMonthStart.value.year, currentMonthStart.value.month + 1, 0);
     getDaysOfMonth();
+    getTasks();
     update();
   }
 
@@ -56,26 +58,36 @@ class CalendarController extends GetxController {
             day: index >= currentMonthDays
                 ? index - currentMonthDays + 1
                 : index + 1,
-            tasks: List.generate(
-                3,
-                (index) => TaskModel(
-                    id: index,
-                    date: DateTime(currentMonthStart.value.year,
-                        currentMonthStart.value.month, index + 1),
-                    description: "description $index")))));
+            tasks: [])));
     daysOfMonth.value = monthBefore + currentMonth;
   }
 
-  addNewTaskToDatabase(DayModel item, TaskModel task) {
-    _repository.insertData("tasks", task.toMap());
+  addNewTaskToDatabase(DayModel item, TaskModel task) async {
+    await _repository.insertData("tasks", task.toMap());
     int index = daysOfMonth.indexOf(item);
     daysOfMonth[index].tasks.add(task);
     update();
   }
 
-  deleteTaskFromDatabase(int index, TaskModel task) {
-    _repository.deleteData("tasks", task.id);
+  deleteTaskFromDatabase(int index, TaskModel task) async {
+    await _repository.deleteData("tasks", task.id);
     daysOfMonth[index].tasks.remove(task);
     update();
+  }
+
+  getTasks() async {
+    final List<Map<String, dynamic>> maps = await _repository.readData(
+        "tasks", currentMonthStart.value, currentMonthEnd.value);
+
+    List<TaskModel> tasksList = List.generate(maps.length, (i) {
+      return TaskModel.fromMap(maps[i]);
+    });
+
+    for (TaskModel task in tasksList) {
+      int currentDay = task.date.day;
+      DayModel currentDayModel = daysOfMonth.firstWhere(
+          (element) => element.currentMonth && element.day == currentDay);
+      currentDayModel.tasks.add(task);
+    }
   }
 }
