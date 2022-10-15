@@ -71,6 +71,14 @@ class CalendarController extends GetxController {
     await _repository.insertData("tasks", task.toMap());
     int index = daysOfMonth.indexOf(item);
     daysOfMonth[index].tasks.add(task);
+    daysOfMonth[index].tasks.sort(
+      (a, b) {
+        int aDate = a.date.microsecondsSinceEpoch;
+        int bDate = b.date.microsecondsSinceEpoch;
+        return aDate.compareTo(bDate);
+      },
+    );
+    update();
     await getData();
     update();
   }
@@ -78,6 +86,7 @@ class CalendarController extends GetxController {
   deleteTaskFromDatabase(int index, TaskModel task) async {
     await _repository.deleteData("tasks", task.id);
     daysOfMonth[index].tasks.remove(task);
+    update();
     await getData();
     update();
   }
