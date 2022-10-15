@@ -24,10 +24,10 @@ class _DayScreenState extends State<DayScreen> {
     int minutes = index % 2 == 0 ? 0 : 30;
     return "${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}";
   });
+  String currentTime = "00:00";
 
   @override
   Widget build(BuildContext context) {
-    String currentTime = _timePicker.first;
     DateTime itemDate = DateTime(
         _calendarController.currentMonthStart.value.year,
         _calendarController.currentMonthStart.value.month,
@@ -75,7 +75,6 @@ class _DayScreenState extends State<DayScreen> {
                             color: Colors.deepPurpleAccent,
                           ),
                           onChanged: (String? value) {
-                            // This is called when the user selects an item.
                             setState(() {
                               currentTime = value!;
                             });
@@ -101,7 +100,8 @@ class _DayScreenState extends State<DayScreen> {
                   ElevatedButton(
                       onPressed: _editingController.text.isEmpty
                           ? null
-                          : (() => addNewTask(_editingController.text)),
+                          : (() =>
+                              addNewTask(_editingController.text, currentTime)),
                       child: const Text("Add"))
                 ],
               )
@@ -112,7 +112,8 @@ class _DayScreenState extends State<DayScreen> {
     ));
   }
 
-  addNewTask(String text) {
+  addNewTask(String text, String currentTime) {
+    List<String> timeList = currentTime.split(":");
     _calendarController.addNewTaskToDatabase(
         widget.item,
         TaskModel(
@@ -120,7 +121,9 @@ class _DayScreenState extends State<DayScreen> {
             date: DateTime(
                 _calendarController.currentMonthStart.value.year,
                 _calendarController.currentMonthStart.value.month,
-                widget.item.day),
+                widget.item.day,
+                int.parse(timeList[0]),
+                int.parse(timeList[1])),
             description: text));
 
     setState(() {

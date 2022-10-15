@@ -21,6 +21,7 @@ class Repository {
   readData(table, DateTime dataStart, DateTime dataEnd) async {
     var connection = await database;
     return await connection.query(table,
+        orderBy: "date",
         where:
             "date BETWEEN ${dataStart.millisecondsSinceEpoch} and ${dataEnd.millisecondsSinceEpoch}");
   }

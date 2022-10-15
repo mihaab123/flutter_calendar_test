@@ -8,7 +8,7 @@ class CalendarController extends GetxController {
   Rx<DateTime> currentMonthStart = Rx<DateTime>(DateTime.now());
   Rx<DateTime> currentMonthEnd = Rx<DateTime>(DateTime.now());
   RxList<DayModel> daysOfMonth = RxList<DayModel>([]);
-  Repository _repository = Repository();
+  final Repository _repository = Repository();
 
   @override
   void onInit() {
@@ -17,8 +17,8 @@ class CalendarController extends GetxController {
         currentMonthStart.value.year, currentMonthStart.value.month, 1);
     currentMonthEnd.value = DateTime(
         currentMonthStart.value.year, currentMonthStart.value.month + 1, 0);
-    getDaysOfMonth();
-    getTasks();
+    getData();
+    update();
   }
 
   setNewDate(int step) {
@@ -26,8 +26,13 @@ class CalendarController extends GetxController {
         currentMonthStart.value.year, currentMonthStart.value.month + step, 1);
     currentMonthEnd.value = DateTime(
         currentMonthStart.value.year, currentMonthStart.value.month + 1, 0);
+    getData();
+    update();
+  }
+
+  getData() async {
     getDaysOfMonth();
-    getTasks();
+    await getTasks();
     update();
   }
 
@@ -66,12 +71,14 @@ class CalendarController extends GetxController {
     await _repository.insertData("tasks", task.toMap());
     int index = daysOfMonth.indexOf(item);
     daysOfMonth[index].tasks.add(task);
+    await getData();
     update();
   }
 
   deleteTaskFromDatabase(int index, TaskModel task) async {
     await _repository.deleteData("tasks", task.id);
     daysOfMonth[index].tasks.remove(task);
+    await getData();
     update();
   }
 
@@ -85,9 +92,10 @@ class CalendarController extends GetxController {
 
     for (TaskModel task in tasksList) {
       int currentDay = task.date.day;
-      DayModel currentDayModel = daysOfMonth.firstWhere(
+      int index = daysOfMonth.indexWhere(
           (element) => element.currentMonth && element.day == currentDay);
-      currentDayModel.tasks.add(task);
+      daysOfMonth[index].tasks.add(task);
     }
+    daysOfMonth.refresh();
   }
 }
